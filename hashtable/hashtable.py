@@ -1,23 +1,12 @@
 class HashTableEntry:
     """
-    Linked List hash table key/value pair
-    """
+  Linked List hash table key/value pair
+  """
+
     def __init__(self, key, value):
         self.key = key
         self.value = value
         self.next = None
-
-    def get_key(self):
-        return self.key
-
-    def get_value(self):
-        return self.value
-
-    def get_next(self):
-        return self.next
-
-    def __str__(self):
-        return f'({self.key}: {self.value})'
 
 
 # Hash table can't have fewer than this many slots
@@ -26,136 +15,121 @@ MIN_CAPACITY = 8
 
 class HashTable:
     """
-    A hash table that with `capacity` buckets
-    that accepts string keys
+  A hash table that with `capacity` buckets
+  that accepts string keys
 
-    Implement this.
-    """
+  Implement this.
+  """
 
     def __init__(self, capacity):
         # Your code here
         self.capacity = capacity
         self.table = [None] * capacity
 
-
-
     def get_num_slots(self):
         """
-        Return the length of the list you're using to hold the hash
-        table data. (Not the number of items stored in the hash table,
-        but the number of slots in the main list.)
+    Return the length of the list you're using to hold the hash
+    table data. (Not the number of items stored in the hash table,
+    but the number of slots in the main list.)
 
-        One of the tests relies on this.
+    One of the tests relies on this.
 
-        Implement this.
-        """
+    Implement this.
+    """
         # Your code here
         return len(self.table)
 
-
     def get_load_factor(self):
         """
-        Return the load factor for this hash table.
+    Return the load factor for this hash table.
 
-        Implement this.
-        """
+    Implement this.
+    """
         # Your code here
-        
-
 
     def fnv1(self, key):
         """
-        FNV-1 Hash, 64-bit
+    FNV-1 Hash, 64-bit
 
-        Implement this, and/or DJB2.
-        """
+    Implement this, and/or DJB2.
+    """
 
         # Your code here
-
-
 
     def djb2(self, key):
         """
-        DJB2 hash, 32-bit
+      DJB2 hash, 32-bit
 
-        Implement this, and/or FNV-1.
-        """
+      Implement this, and/or FNV-1.
+      """
         # Your code here
         hash = 5381
         for x in key:
-            hash = ((hash << 5 ) + hash) + ord(x)
-        return hash & 0xFFFFFFFF 
-        
-
+            hash = ((hash << 5) + hash) + ord(x)
+        return hash & 0xFFFFFFFF
 
     def hash_index(self, key):
         """
-        Take an arbitrary key and return a valid integer index
-        between within the storage capacity of the hash table.
-        """
+      Take an arbitrary key and return a valid integer index
+      between within the storage capacity of the hash table.
+      """
         #return self.fnv1(key) % self.capacity
         return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
-        Store the value with the given key.
+      Store the value with the given key.
 
-        Hash collisions should be handled with Linked List Chaining.
+      Hash collisions should be handled with Linked List Chaining.
 
-        Implement this.
-        """
+      Implement this.
+      """
         # Your code here
         # self.table[self.hash_index(key)] = value
 
         if self.table[self.hash_index(key)] == None:
             self.table[self.hash_index(key)] = HashTableEntry(key, value)
-        
+
         curr = self.table[self.hash_index(key)]
 
         while curr != None:
             if curr.key == key:
                 curr.value = value
-                return 
+                return
+            elif curr.next == None:
+              curr.next = HashTableEntry(key, value)
+              return
             curr = curr.next
-
-        curr = HashTableEntry(key, value)
-                
-
 
     def delete(self, key):
         """
-        Remove the value stored with the given key.
+      Remove the value stored with the given key.
 
-        Print a warning if the key is not found.
+      Print a warning if the key is not found.
 
-        Implement this.
-        """
+      Implement this.
+      """
         # Your code here
         curr = self.table[self.hash_index(key)]
-        prev = None
 
         while curr != None:
-            if curr.key != key:
-                prev = curr
-                curr = curr.next
-            else:
-                prev.next = curr.next
-                curr.next = None
-                return curr
+            if curr.key == key:
+                curr.value = None
+                return curr                
+            curr = curr.next
 
         print("Key is not found")
         return None
-            
 
     def get(self, key):
         """
-        Retrieve the value stored with the given key.
+      Retrieve the value stored with the given key.
 
-        Returns None if the key is not found.
+      Returns None if the key is not found.
 
-        Implement this.
-        """
-        # Your code here       
+      Implement this.
+      """
+        # Your code here
         curr = self.table[self.hash_index(key)]
 
         while curr != None:
@@ -167,11 +141,11 @@ class HashTable:
 
     def resize(self, new_capacity):
         """
-        Changes the capacity of the hash table and
-        rehashes all key/value pairs.
+      Changes the capacity of the hash table and
+      rehashes all key/value pairs.
 
-        Implement this.
-        """
+      Implement this.
+      """
         # Your code here
         
 
