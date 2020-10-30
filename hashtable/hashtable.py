@@ -105,7 +105,21 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        self.table[self.hash_index(key)] = value
+        # self.table[self.hash_index(key)] = value
+
+        if self.table[self.hash_index(key)] == None:
+            self.table[self.hash_index(key)] = HashTableEntry(key, value)
+        
+        curr = self.table[self.hash_index(key)]
+
+        while curr != None:
+            if curr.key == key:
+                curr.value = value
+                return 
+            curr = curr.next
+
+        curr = HashTableEntry(key, value)
+                
 
 
     def delete(self, key):
@@ -117,9 +131,21 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        if self.table[self.hash_index(key)] is None:
-            return print("value is already None")
-        self.table[self.hash_index(key)] = None
+        curr = self.table[self.hash_index(key)]
+        prev = None
+
+        while curr != None:
+            if curr.key != key:
+                prev = curr
+                curr = curr.next
+            else:
+                prev.next = curr.next
+                curr.next = None
+                return curr
+
+        print("Key is not found")
+        return None
+            
 
     def get(self, key):
         """
@@ -129,11 +155,15 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-        if self.table[self.hash_index(key)] is None:
-            return print("value is not found")
-        return self.table[self.hash_index(key)]
+        # Your code here       
+        curr = self.table[self.hash_index(key)]
 
+        while curr != None:
+            if curr.key == key:
+                return curr.value
+            curr = curr.next
+
+        return None
 
     def resize(self, new_capacity):
         """
