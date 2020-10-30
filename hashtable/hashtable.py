@@ -25,6 +25,7 @@ class HashTable:
         # Your code here
         self.capacity = capacity
         self.table = [None] * capacity
+        self.num_of_items = 0
 
     def get_num_slots(self):
         """
@@ -46,6 +47,7 @@ class HashTable:
     Implement this.
     """
         # Your code here
+        return self.num_of_items / self.get_num_slots()
 
     def fnv1(self, key):
         """
@@ -89,6 +91,7 @@ class HashTable:
 
         if self.table[self.hash_index(key)] == None:
             self.table[self.hash_index(key)] = HashTableEntry(key, value)
+            self.num_of_items += 1
 
         curr = self.table[self.hash_index(key)]
 
@@ -98,8 +101,15 @@ class HashTable:
                 return
             elif curr.next == None:
               curr.next = HashTableEntry(key, value)
+              self.num_of_items += 1
               return
             curr = curr.next
+
+        load_factor = self.get_load_factor()
+
+        if load_factor > 0.7:
+            self.resize(self.capacity * 2)
+
 
     def delete(self, key):
         """
@@ -115,6 +125,12 @@ class HashTable:
         while curr != None:
             if curr.key == key:
                 curr.value = None
+                self.num_of_items -= 1
+
+                load_factor = self.get_load_factor()
+                if load_factor < 0.2:
+                    self.resize(int(self.capacity / 2))
+
                 return curr                
             curr = curr.next
 
@@ -147,6 +163,19 @@ class HashTable:
       Implement this.
       """
         # Your code here
+        old_table = [ll for ll in self.table]
+
+        self.table = [None] * new_capacity
+        self.capacity = new_capacity
+        self.num_of_items = 0
+
+        for ll in old_table:
+            curr = ll
+            while curr != None:
+                if curr.value != None:
+                    self.put(curr.key, curr.value)
+                curr = curr.next
+                
         
 
 
