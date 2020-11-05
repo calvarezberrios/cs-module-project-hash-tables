@@ -1,7 +1,7 @@
 class HashTableEntry:
     """
-  Linked List hash table key/value pair
-  """
+    Linked List hash table key/value pair
+    """
 
     def __init__(self, key, value):
         self.key = key
@@ -15,11 +15,11 @@ MIN_CAPACITY = 8
 
 class HashTable:
     """
-  A hash table that with `capacity` buckets
-  that accepts string keys
+    A hash table that with `capacity` buckets
+    that accepts string keys
 
-  Implement this.
-  """
+    Implement this.
+    """
 
     def __init__(self, capacity):
         # Your code here
@@ -29,32 +29,32 @@ class HashTable:
 
     def get_num_slots(self):
         """
-    Return the length of the list you're using to hold the hash
-    table data. (Not the number of items stored in the hash table,
-    but the number of slots in the main list.)
+        Return the length of the list you're using to hold the hash
+        table data. (Not the number of items stored in the hash table,
+        but the number of slots in the main list.)
 
-    One of the tests relies on this.
+        One of the tests relies on this.
 
-    Implement this.
-    """
+        Implement this.
+        """
         # Your code here
         return len(self.table)
 
     def get_load_factor(self):
         """
-    Return the load factor for this hash table.
+        Return the load factor for this hash table.
 
-    Implement this.
-    """
+        Implement this.
+        """
         # Your code here
         return self.num_of_items / self.get_num_slots()
 
     def fnv1(self, key):
         """
-    FNV-1 Hash, 64-bit
+        FNV-1 Hash, 64-bit
 
-    Implement this, and/or DJB2.
-    """
+        Implement this, and/or DJB2.
+        """
 
         # Your code here
 
@@ -135,7 +135,6 @@ class HashTable:
             curr = curr.next
 
         print("Key is not found")
-        return None
 
     def get(self, key):
         """
