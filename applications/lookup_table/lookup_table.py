@@ -18,12 +18,11 @@ def slowfun(x, y):
     output, but completes quickly instead of taking ages to run.
     """
     # Your code here
-    v = math.pow(x, y)
-    if v in calculated:
-      return calculated[v]
+    if (x, y) in calculated:
+      return calculated[(x, y)]
     
-    calculated[v] = (math.factorial(v) // (x + y)) % 982451653
-    return calculated[v]
+    calculated[(x, y)] = (math.factorial(math.pow(x, y)) // (x + y)) % 982451653
+    return calculated[x, y]
 
 
 
